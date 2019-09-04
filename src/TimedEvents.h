@@ -3,18 +3,19 @@
 #include <stdint.h>
 #include "TimedEventsIO.h"
 
-class TimedEvent : IoInterface
+template<typename T>
+class ValueController : IoInterface<T>
 {
 private:
-    IoItem *item;
+    IoItem<T> *item;
     unsigned long lastChange;
     unsigned long lastRead;
     uint8_t changed;
 
 public:
-    TimedEvent(IoItem &item);
-    uint8_t Read();
-    void Write(uint8_t value);
+    ValueController(IoItem<T> &item);
+    T Read();
+    void Write(T value);
     uint8_t Changed();
     unsigned long ChangedAt();
     void ResetChange();
@@ -24,27 +25,32 @@ public:
     unsigned long Debounce; // in milliseconds
 };
 
-TimedEvent::TimedEvent(IoItem &item)
+template<typename T>
+ValueController<T>::ValueController(IoItem<T> &item)
 {
     this->item = &item;
 }
 
-uint8_t TimedEvent::Changed()
+template<typename T>
+uint8_t ValueController<T>::Changed()
 {
     return changed;
 }
 
-unsigned long TimedEvent::ChangedAt()
+template<typename T>
+unsigned long ValueController<T>::ChangedAt()
 {
     return lastChange;
 }
 
-void TimedEvent::ResetChange()
+template<typename T>
+void ValueController<T>::ResetChange()
 {
     changed = 0;
 }
 
-void TimedEvent::Write(uint8_t value)
+template<typename T>
+void ValueController<T>::Write(T value)
 {
     if (value != item->Value())
     {
@@ -54,11 +60,13 @@ void TimedEvent::Write(uint8_t value)
     item->Write(value);
 }
 
-uint8_t TimedEvent::Read()
+template<typename T>
+T ValueController<T>::Read()
 {
     unsigned long now = millis();
     auto prevVal = item->Value();
-    if (Debounce && lastRead != 0 && (now - lastRead) >= Debounce)
+    // either debounce is disabled, or never read, or read long ago 
+    if (!Debounce || lastRead == 0 || (now - lastRead) >= Debounce)
     {
         lastRead = now;
         auto value = item->Read();
@@ -76,12 +84,14 @@ uint8_t TimedEvent::Read()
     }
 }
 
-uint8_t TimedEvent::TimeReached(unsigned long time)
+template<typename T>
+uint8_t ValueController<T>::TimeReached(unsigned long time)
 {
     return ((millis() - lastChange) >= time);
 }
 
-void TimedEvent::Toggle()
+template<typename T>
+void ValueController<T>::Toggle()
 {
     changed = true;
     lastChange = millis();
