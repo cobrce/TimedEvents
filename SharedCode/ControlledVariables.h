@@ -10,6 +10,7 @@ class ControlledVar : public IoItem<T>
 public:
     ControlledVar(){};
     ControlledVar(T &initialValue) { Write(initialValue); }
+    ControlledVar(T initialValue) { Write(initialValue); }
     virtual void SetOutput(){};
     virtual void SetInput(bool pullup = false){};
     virtual T Read() { return Value(); }

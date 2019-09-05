@@ -15,6 +15,9 @@ ValueController<uint8_t> BController(B);
 ValueController<uint8_t> BtnController(btn);
 ValueController<uint8_t> LedController(led);
 
+Timer tmr(750);
+Timer tmr2(1100);
+
 int main()
 {
     // should initialize millis manually because not arduino
@@ -31,11 +34,23 @@ int main()
 
     uint8_t stopBlinking = false;
 
+    // don't forget to start the timers when needed
+    tmr.Start();
+    tmr2.Start();
+
     while (1)
     {
         // example of accessing IO, blink without delay
         if (!stopBlinking && LedController.TimeReached(500)) // toggles LED every 500ms
             LedController.Toggle();
+
+        // example of separating the Timer from the ControlledAvrPin
+        // this way we can compare to multiple times
+        // ps : we could also use multiple Controllers instead
+        if ((tmr.Reached(false) || tmr2.Reached(false)) && !stopBlinking)
+            led.Toggle(); // write directly to the ControlledAvrPin
+                          // instead of the Controller to not interfere with
+                          // its time counting
 
         // example of accessing PORT, time counter without delay
         if (BController.TimeReached(1000)) // increment counter every 1 second

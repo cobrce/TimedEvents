@@ -5,5 +5,6 @@
 #include "TimedEventsAvrIncludes/AvrPins.h"
 #include "TimedEventsAvrIncludes/ControlledAvrPin.h"
 #include "TimedEventsAvrIncludes/ControlledAvrPort.h"
+#include "../SharedCode/Timer.h"
 
 #endif

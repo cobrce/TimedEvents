@@ -4,7 +4,7 @@ The point of this library is that the time is counted with millis and not delay/
 
 
 ## How it works
-The library is divided into 2 entities : 
+The library is divided into 2 entities (the 3rd one is combination of them) : 
 ### The IoItem :
  * is an encapsulation of variable, a pin or port (for non-arduino)
  * it offers an interface for functions to read/write/toggle/change IO direction/get current value (last read/written value)
@@ -15,12 +15,19 @@ The library is divided into 2 entities :
  * has functions to read/write/toggle the IoItem
  * has functions to check for changes and how long ago the change was done
  * implements a software debounce (when an input changes, its value is not updated during the debounce time)
+
+#### The Timer :
+ * it's a class encapsulating a Controller with a dummy IoItem
+ * all the instances of the Timer have different Controller but all use the same dummy IoItem
+ * it has functions to Start/Reset/ and detect Reached time
+ * the time is initialized with the constructor
+ * the point of it is to measure time for other events that can't be cought by the Controller (ex : commands from Serial, value read by a sensor)
  
 ## How to use :
  * Create an instance of the IoItem you want to control
  * Create an instance of a controller for that IoItem
  * use the controller to read/write/toggle
- 
+ * you can also use the class Timer if you wan't to measure time for different events
  ``` C++
  #include <TimedEvents.h>
  

@@ -11,11 +11,16 @@ ValueController<uint8_t> ledController(led);
 ValueController<int> counterController(counter);
 ValueController<uint8_t> btnController(btn);
 
+Timer tmr(750);
+Timer tmr2(1100);
+
 void setup()
 {
     Serial.begin(9600);
     btnController.Debounce = 50; // ignore changes after 50ms from the last one
     delay(10); // to avoid the case where millis() == 0
+    tmr.Start();
+    tmr2.Start();
 }
 
 void loop()
@@ -24,6 +29,14 @@ void loop()
     // example of accessing IO, blink without delay 
     if (ledController.TimeReached(500)) // toggles LED every 500ms
         ledController.Toggle();
+
+    // example of separating the Timer from the ControlledArduinoPin
+    // this way we can compare to multiple times
+     // ps : we could also use multiple Controllers instead    
+    if ((tmr.Reached(false) || tmr2.Reached(false)))
+            led.Toggle(); // write directly to the ControlledArduinoPin
+                          // instead of the Controller to not interfere with
+                          // its time counting
     
     // example of accessing variable, time counter without delay
     if(counterController.TimeReached(1000)) // writes a message every 1 second
