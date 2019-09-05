@@ -31,11 +31,25 @@ namespace PORTS
 {
     enum Port
     {
+        #ifdef PORTA
         A,
+        #endif
+
+        #ifdef PORTB
         B,
+        #endif
+
+        #ifdef PORTC
         C,
+        #endif
+
+        #ifdef PORTD
         D,
+        #endif
+
+        #ifdef PORTE
         E,
+        #endif
     };
 };
 
