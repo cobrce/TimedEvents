@@ -1,7 +1,7 @@
-#ifndef TIMEd_EVENTS_H_
-#define TIMEd_EVENTS_H_
+#ifndef VALUE_CONTROLLER_H_
+#define VALUE_CONTROLLER_H_
 #include <stdint.h>
-#include "TimedEventsIO.h"
+#include "ValueControllerIO.h"
 
 template<typename T>
 class ValueController : IoInterface<T>

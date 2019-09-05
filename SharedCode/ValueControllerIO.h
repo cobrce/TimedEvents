@@ -1,5 +1,5 @@
-#ifndef TIMED_EVENTS_IO_H_
-#define TIMED_EVENTS_IO_H_
+#ifndef VALUE_CONTROLLER_IO_H_
+#define VALUE_CONTROLLER_IO_H_
 
 #include <stdint.h>
 
