@@ -39,7 +39,7 @@ int main()
             LedController.Toggle();
 
         // example of accessing PORT, time counter without delay
-        if (BController.TimeReached(1000)) // increment counter every 1ms
+        if (BController.TimeReached(1000)) // increment counter every 1 second
             BController.Write(B.Value() + 1);
 
         // example of IO changed detection with software debounce
