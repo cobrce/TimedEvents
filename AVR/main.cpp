@@ -19,6 +19,7 @@ int main()
 {
     // should initialize millis manually because not arduino
     millis_init();
+    sei();
 
     // avoid millis() returns 0
     _delay_ms(10);

@@ -12,11 +12,12 @@ OBJCOPY=avr-objcopy
 SIZE=avr-size
 AVRDUDE=avrdude
 CFLAGS=-std=c++11 -Wall -g -Os -mmcu=${MCU} -DF_CPU=${F_CPU} -I.
-TARGET=main
+TARGET=build/main
 
 SRCS = main.cpp
 
 all:
+	mkdir -p build
 	${CC} ${CFLAGS} -o ${TARGET}.o ${SRCS}
 	${LD} -o ${TARGET}.elf ${TARGET}.o
 	${OBJCOPY} -j .text -j .data -O ihex ${TARGET}.o ${TARGET}.hex
