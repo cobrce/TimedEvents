@@ -1,3 +1,5 @@
+// based on https://github.com/zkemble/millis/blob/master/arduino/millis/millis.cpp licensed as GPL3 or MIT
+
 #ifndef MILLIS_H_
 #define MILLIS_H_
 
@@ -34,8 +36,9 @@ static volatile millis_t milliseconds;
 #define pwr_disable()	power_timer0_disable()
 
 #define SET_TCCRA()	(REG_TCCRA = _BV(BIT_WGM))
-#define SET_TCCRB()	(REG_TCCRB = CLOCKSEL)
-
+#define SET_TCCRB()	(REG_TCCRB = CLOCKSEL) 
+// if your target uC has TCCR0A == TCCR0B (ex : Atmeg32) comment line above and use the following
+//#define SET_TCCRB()	(REG_TCCRB |= CLOCKSEL) 
 
 millis_t millis()
 {
