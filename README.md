@@ -21,7 +21,7 @@ The library is divided into 2 entities (the 3rd one is combination of them) :
  * all the instances of the Timer have different Controller but all use the same dummy IoItem
  * it has functions to Start/Reset/ and detect Reached time
  * the time is initialized with the constructor
- * the point of it is to measure time for other events that can't be cought by the Controller (ex : commands from Serial, value read by a sensor)
+ * the point of it is to measure time for other events that can't be caught by the Controller (ex : commands from Serial, value read by a sensor)
  
 ## How to use :
  * Create an instance of the IoItem you want to control
