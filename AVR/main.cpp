@@ -9,7 +9,7 @@
 #include "../src/ControlledVariables.h"
 #include "AvrPins.h"
 
-ControlledAvrPort B(PORTS::B);           // PORTB is used as binary counters
+ControlledAvrPort B(PORTS::B, 0xff);     // PORTB is used as binary counters
 ControlledAvrPin btn(PORTS::C, 0);       // input
 ControlledAvrPin led(PORTS::C, 1, true); // output
 
@@ -22,12 +22,13 @@ int main()
     // should initialize millis manually because not arduino
     millis_init();
 
-     // avoid millis() returns 0
+    // avoid millis() returns 0
     _delay_ms(10);
 
     BtnController.Debounce = 50;
     LedController.Write(0); // init with 0 to start timer counting
-    BController.Write(0); // same
+    BController.Write(0);   // same
+    btn.Write(1);           // set pull-up, writing directly to ControlledAvrPin (not to ValueController) doesn't count time
 
     uint8_t stopBlinking = false;
 
