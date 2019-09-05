@@ -5,9 +5,7 @@
 
 #include "millis.h"
 
-#include "../src/TimedEvents.h"
-#include "../src/ControlledVariables.h"
-#include "AvrPins.h"
+#include "TimedEventsAvr.h"
 
 ControlledAvrPort B(PORTS::B, 0xff);     // PORTB is used as binary counters
 ControlledAvrPin btn(PORTS::C, 0);       // input

@@ -1,6 +1,6 @@
 #ifndef CONTROLLED_VARIABLES_H_
 #define CONTROLLED_VARIABLES_H_
-#include "TimedEventsIO.h"
+#include "ValueController.h"
 
 template <typename T>
 class ControlledVar : public IoItem<T>

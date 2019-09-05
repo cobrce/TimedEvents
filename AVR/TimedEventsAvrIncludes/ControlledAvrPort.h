@@ -3,7 +3,7 @@
 
 #include <avr/io.h>
 #include <stdint.h>
-#include "../src/TimedEventsIO.h"
+#include "../../SharedCode/ValueController.h"
 
 #include "AvrConsts.h"
 

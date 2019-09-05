@@ -2,7 +2,7 @@
 #define ARDUINO_PINS_H_
 
 #include <stdint.h>
-#include "../SharedCode/ValueControllerIO.h"
+#include "../SharedCode/ValueController.h"
 
 class ControlledArduinoPin : public IoItem<uint8_t>
 {
