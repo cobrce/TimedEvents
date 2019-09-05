@@ -43,8 +43,7 @@ int main()
             BController.Write(B.Value() + 1);
 
         // example of IO changed detection with software debounce
-        BtnController.Read();
-        if (BtnController.Changed())
+        if (BtnController.Read() && BtnController.Changed())
             stopBlinking = !stopBlinking;
     }
 }
