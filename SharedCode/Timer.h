@@ -4,16 +4,6 @@
 #include "ValueController.h"
 #include "ControlledVariables.h"
 
-// ControlledVar<uint8_t> _dummyVar;
-
-// class TimerBase : public TimeController<uint8_t>
-// {
-//     public:
-//     TimerBase(){}
-    
-    
-// };
-
 class Timer : TimeController<uint8_t>
 {
 private:
@@ -28,11 +18,11 @@ public:
     void Start(uint8_t forceRestart = false);
     void SetDelay(unsigned long time);
     void Reset();
-    uint8_t IsRunning() { return this->Changed();/* return controller.Changed();*/ }
+    uint8_t IsRunning() { return this->Changed();
     uint8_t Reached(bool stop = true); // if this parameter is false the timer will restart
 };
 
-Timer::Timer(unsigned long time)/* : controller(ValueController<uint8_t>(_dummyVar))*/
+Timer::Timer(unsigned long time)
 {
     this->time = time;
 }
