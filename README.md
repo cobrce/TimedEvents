@@ -18,8 +18,8 @@ The library is divided into 3 entities :
 
 ### The Timer :
  * a sort of Controller but doesn't depend on IoItem
- * it has functions to Start/Reset/ and detect Reached time
- * the time is initialized with the constructor
+ * it has functions to Start, to Reset and to detect if time is reached
+ * the time span is initialized with the constructor
  * the point of it is to measure time for other events that can't be caught by the Controller (ex : commands from Serial, value read by a sensor)
  
 ## How to use :
