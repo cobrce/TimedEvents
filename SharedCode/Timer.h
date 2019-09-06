@@ -57,7 +57,7 @@ uint8_t Timer::Reached(bool stop)
     auto reached = controller.Changed() && controller.TimeReached(this->time);
     if (reached)
     {
-        if (stop) // either stop the time or restart it
+        if (stop) // either stop the timer or restart it
             controller.ResetChange();
         else
             Start(true);
