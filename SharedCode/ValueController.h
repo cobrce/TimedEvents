@@ -3,98 +3,113 @@
 #include <stdint.h>
 #include "ValueControllerIO.h"
 
-template<typename T>
-class ValueController : IoInterface<T>
+template <typename T>
+class TimeController : public IoInterface<T>
+{
+protected:
+    unsigned long lastChange;
+    uint8_t changed;
+
+    void SetChangedNow();
+
+public:
+    TimeController(){}
+    virtual T Read() = 0;
+    virtual void Write(T value) = 0;
+    virtual void Toggle() = 0;
+
+    uint8_t Changed();
+    unsigned long ChangedAt();
+    void ResetChange();
+    uint8_t TimeReached(unsigned long time);
+};
+
+template <typename T>
+uint8_t TimeController<T>::Changed()
+{
+    return changed;
+}
+
+template <typename T>
+unsigned long TimeController<T>::ChangedAt()
+{
+    return lastChange;
+}
+
+template <typename T>
+void TimeController<T>::ResetChange()
+{
+    changed = 0;
+}
+
+template <typename T>
+void TimeController<T>::SetChangedNow()
+{
+    this->changed = true;
+    this->lastChange = millis();
+}
+
+template <typename T>
+uint8_t TimeController<T>::TimeReached(unsigned long time)
+{
+    return ((millis() - lastChange) >= time);
+}
+
+template <typename T>
+class ValueController : public TimeController<T>
 {
 private:
     IoItem<T> *item;
-    unsigned long lastChange;
     unsigned long lastRead;
-    uint8_t changed;
 
 public:
     ValueController(IoItem<T> &item);
     T Read();
     void Write(T value);
-    uint8_t Changed();
-    unsigned long ChangedAt();
-    void ResetChange();
-    uint8_t TimeReached(unsigned long time);
     void Toggle();
 
     unsigned long Debounce; // in milliseconds
 };
 
-template<typename T>
+template <typename T>
 ValueController<T>::ValueController(IoItem<T> &item)
 {
     this->item = &item;
 }
 
-template<typename T>
-uint8_t ValueController<T>::Changed()
-{
-    return changed;
-}
-
-template<typename T>
-unsigned long ValueController<T>::ChangedAt()
-{
-    return lastChange;
-}
-
-template<typename T>
-void ValueController<T>::ResetChange()
-{
-    changed = 0;
-}
-
-template<typename T>
+template <typename T>
 void ValueController<T>::Write(T value)
 {
     if (value != item->Value())
-    {
-        changed = true;
-        lastChange = millis();
-    }
+        this->SetChangedNow();
     item->Write(value);
 }
 
-template<typename T>
+template <typename T>
 T ValueController<T>::Read()
 {
     unsigned long now = millis();
     auto prevVal = item->Value();
-    // either debounce is disabled, or never read, or read long ago 
+    // either debounce is disabled, or never read, or read long ago
     if (!Debounce || lastRead == 0 || (now - lastRead) >= Debounce)
     {
         lastRead = now;
         auto value = item->Read();
         if (prevVal != value)
-        {
-            changed = true;
-            lastChange = now;
-        }
+            this->SetChangedNow();
         return value;
     }
     else
     {
-        changed = false;
+        this->changed = false;
         return prevVal;
     }
 }
 
-template<typename T>
-uint8_t ValueController<T>::TimeReached(unsigned long time)
-{
-    return ((millis() - lastChange) >= time);
-}
-
-template<typename T>
+template <typename T>
 void ValueController<T>::Toggle()
 {
-    changed = true;
-    lastChange = millis();
+    this->SetChangedNow();
     item->Toggle();
 }
 

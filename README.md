@@ -1,10 +1,10 @@
 # TimedEvents
 An Arduino/non-arduino-AVR library to keep track of when events occured, like when an input changed, when an output/variable was written...etc.
-The point of this library is that the time is counted with millis and not delay/_delay_ms, so several events can be timed **easily** without blocking each other
+The point of this library is that the time is counted with millis and not delay/_delay_ms, so several events can be timed **easily** without blocking each other.
 
 
 ## How it works
-The library is divided into 2 entities (the 3rd one is combination of them) : 
+The library is divided into 3 entities : 
 ### The IoItem :
  * is an encapsulation of variable, a pin or port (for non-arduino)
  * it offers an interface for functions to read/write/toggle/change IO direction/get current value (last read/written value)
@@ -16,9 +16,8 @@ The library is divided into 2 entities (the 3rd one is combination of them) :
  * has functions to check for changes and how long ago the change was done
  * implements a software debounce (when an input changes, its value is not updated during the debounce time)
 
-#### The Timer :
- * it's a class encapsulating a Controller with a dummy IoItem
- * all the instances of the Timer have different Controller but all use the same dummy IoItem
+### The Timer :
+ * a sort of Controller but doesn't depend on IoItem
  * it has functions to Start/Reset/ and detect Reached time
  * the time is initialized with the constructor
  * the point of it is to measure time for other events that can't be caught by the Controller (ex : commands from Serial, value read by a sensor)
@@ -70,7 +69,7 @@ The library is divided into 2 entities (the 3rd one is combination of them) :
         tmr.Start(true); // start timer with force restart, so it starts counting when the last characeter of the message is received
     }
 
-    if (tmr.Reached()) // checking a timer will reset or restart it, so in order to use this information further it should be saved
+    if (tmr.Reached()) // checking a timer will either reset it or restart it, so in order to use this information further it should be saved
         Serial.println("1 second since message received");
  } 
  ```
