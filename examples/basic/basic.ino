@@ -13,6 +13,7 @@ ValueController<uint8_t> btnController(btn);
 
 Timer tmr(750);
 Timer tmr2(1100);
+Timer tmr3(1000);
 
 void setup()
 {
@@ -53,4 +54,13 @@ void loop()
         Serial.print("Value state ");
         Serial.println(btn.Value() ? "ON" : "OFF");
     }
+
+    if (Serial.available())
+    {
+        Serial.read();
+        tmr3.Start(true); // start timer with force restart, so it starts counting when the last characeter of the message is received
+    }
+
+    if (tmr3.Reached()) // checking a timer will reset or restart it, so in order to use this information further it should be saved
+        Serial.println("1 second since message received");
 }

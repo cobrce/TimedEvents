@@ -13,10 +13,12 @@ private:
     unsigned long time;
 
 public:
-    Timer(unsigned long time);
-    void Start();
+    Timer(unsigned long time = 0);
+    void Start(uint8_t forceRestart = false);
+    void SetDelay(unsigned long time);
     void Reset();
-    uint8_t Reached(bool stop = true); // if this variable is false the timer will restart
+    uint8_t IsRunning() { return controller.Changed(); }
+    uint8_t Reached(bool stop = true); // if this parameter is false the timer will restart
 };
 
 Timer::Timer(unsigned long time) : controller(ValueController<uint8_t>(_dummyVar))
@@ -24,12 +26,20 @@ Timer::Timer(unsigned long time) : controller(ValueController<uint8_t>(_dummyVar
     this->time = time;
 }
 
-void Timer::Start()
+void Timer::SetDelay(unsigned long time)
 {
-    auto oldSreg = SREG;
-    cli();
-    controller.Toggle();
-    SREG = oldSreg;
+    this->time = time;
+}
+
+void Timer::Start(uint8_t forceRestart)
+{
+    if (!controller.Changed() || forceRestart) // either not running or forced to restart
+    {
+        auto oldSreg = SREG;
+        cli();
+        controller.Toggle();
+        SREG = oldSreg;
+    }
 }
 
 void Timer::Reset()
@@ -50,7 +60,7 @@ uint8_t Timer::Reached(bool stop)
         if (stop) // either stop the time or restart it
             controller.ResetChange();
         else
-            Start();
+            Start(true);
     }
     return reached;
 }
