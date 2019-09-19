@@ -7,6 +7,7 @@
 
 #include "AvrConsts.h"
 
+
 class ControlledAvrPin : public IoItem<uint8_t>
 {
 private:

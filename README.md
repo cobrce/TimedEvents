@@ -35,8 +35,8 @@ The library is divided into 3 entities :
  ControlledArduinoPin btn(2,INPUT_PULLUP);
  
  // Controllers
- ValueController<uint8_t> ledController(led);
- ValueController<uint8_t> btnController(btn);
+ PinController ledController(led); // PinController is ValueController<uint8_t>
+ PinController btnController(btn); // 
 
 // Timer
  Timer tmr(1000);
@@ -44,7 +44,7 @@ The library is divided into 3 entities :
  void setup()
  {
     Serial.begin(9600);
-    delay(5); // to avoid millis returning 0
+    delay(5); // to avoid millis returning 0 (not necessary anymore)
     btnController.Debounce = 50; // set debounce
  }
  

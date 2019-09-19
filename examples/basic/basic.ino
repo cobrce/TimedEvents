@@ -7,9 +7,9 @@ ControlledArduinoPin btn(2,INPUT_PULLUP);
 ControlledVar<int> counter;
 
 // controllers
-ValueController<uint8_t> ledController(led);
+PinController ledController(led);
+PinController btnController(btn);
 ValueController<int> counterController(counter);
-ValueController<uint8_t> btnController(btn);
 
 Timer tmr(750);
 Timer tmr2(1100);
@@ -19,7 +19,7 @@ void setup()
 {
     Serial.begin(9600);
     btnController.Debounce = 50; // ignore changes after 50ms from the last one
-    delay(10); // to avoid the case where millis() == 0
+    delay(10); // to avoid the case where millis() == 0 (not necessary anymore)
     tmr.Start();
     tmr2.Start();
 }

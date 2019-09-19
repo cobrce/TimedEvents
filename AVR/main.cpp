@@ -11,9 +11,9 @@ ControlledAvrPort B(PORTS::B, 0xff);     // PORTB is used as binary counters
 ControlledAvrPin btn(PORTS::C, 0);       // input
 ControlledAvrPin led(PORTS::C, 1, true); // output
 
-ValueController<uint8_t> BController(B);
-ValueController<uint8_t> BtnController(btn);
-ValueController<uint8_t> LedController(led);
+PortController BController(B);
+PinController BtnController(btn);
+PinController LedController(led);
 
 Timer tmr(750);
 Timer tmr2(1100);
@@ -24,8 +24,8 @@ int main()
     millis_init();
     sei();
 
-    // avoid millis() returns 0
-    _delay_ms(10);
+    // avoid millis() returns 0 (not necessary anymore)
+    // _delay_ms(10);
 
     BtnController.Debounce = 50;
     LedController.Write(0); // init with 0 to start timer counting

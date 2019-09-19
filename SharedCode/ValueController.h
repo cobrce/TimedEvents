@@ -46,13 +46,15 @@ template <typename T>
 void TimeController<T>::SetChangedNow()
 {
     this->changed = true;
-    this->lastChange = millis();
+    auto now = millis();
+    this->lastChange = now ? now : 1;
 }
 
 template <typename T>
 uint8_t TimeController<T>::TimeReached(unsigned long time)
 {
-    return ((millis() - lastChange) >= time);
+    auto now = millis();
+    return (((now ? now : 1) - lastChange) >= time);
 }
 
 template <typename T>
@@ -70,6 +72,10 @@ public:
 
     unsigned long Debounce; // in milliseconds
 };
+
+typedef ValueController<uint8_t> PinController;
+typedef ValueController<uint8_t> PortController;
+
 
 template <typename T>
 ValueController<T>::ValueController(IoItem<T> &item)
@@ -89,6 +95,8 @@ template <typename T>
 T ValueController<T>::Read()
 {
     unsigned long now = millis();
+    if (!now) 
+        now = 1;
     auto prevVal = item->Value();
     // either debounce is disabled, or never read, or read long ago
     if (!Debounce || lastRead == 0 || (now - lastRead) >= Debounce)
@@ -99,7 +107,8 @@ T ValueController<T>::Read()
             this->SetChangedNow();
         return value;
     }
-    else
+  
+      else
     {
         this->changed = false;
         return prevVal;
