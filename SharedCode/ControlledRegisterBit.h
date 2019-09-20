@@ -1,5 +1,5 @@
-#ifndef CONTROLLED_REGISTER_H_
-#define CONTROLLED_REGISTER_H_
+#ifndef CONTROLLED_REGISTER_BIT_H_
+#define CONTROLLED_REGISTER_BIT_H_
 #include "ValueController.h"
 
 
