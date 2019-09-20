@@ -4,5 +4,6 @@
 #include "ArduinoPins.h"
 #include "../SharedCode/ControlledVariables.h"
 #include "../SharedCode/Timer.h"
+#include "../SharedCode/ControlledPointer.h
 
 #endif
