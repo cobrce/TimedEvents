@@ -6,6 +6,7 @@
 #include "TimedEventsAvrIncludes/ControlledAvrPin.h"
 #include "TimedEventsAvrIncludes/ControlledAvrPort.h"
 #include "../SharedCode/ControlledPointer.h"
+#include "../SharedCode/ControlledRegisterBit.h"
 #include "../SharedCode/Timer.h"
 
 #endif

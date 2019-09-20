@@ -8,7 +8,6 @@ class ControlledPtr : public IoItem<T>
     private:
     T * ptr;
 public:
-    ControlledPtr(){};
     ControlledPtr(T * ptr) { this->ptr = ptr; }
     virtual void SetOutput(){};
     virtual void SetInput(bool pullup = false){};
