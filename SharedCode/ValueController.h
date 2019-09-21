@@ -105,6 +105,8 @@ T ValueController<T>::Read()
         auto value = item->Read();
         if (prevVal != value)
             this->SetChangedNow();
+        else
+            this->changed = false;
         return value;
     }
   

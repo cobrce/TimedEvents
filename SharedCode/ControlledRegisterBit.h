@@ -12,15 +12,21 @@ public:
     ControlledRegBit(uint8_t& reg,uint8_t pin) : _reg(reg)  {this->pin = pin;}
     virtual void SetOutput(){};
     virtual void SetInput(bool pullup = false){};
-    virtual uint8_t Read() { return Value(); }
+    virtual uint8_t Read();
     virtual void Write(uint8_t value);
-    virtual uint8_t Value() { return  (_reg >> pin) & 1; };
     virtual void Toggle() { Write(Read() == 0); }
 };
 
 void ControlledRegBit::Write(uint8_t value)
 {
+    currentValue = (value != 0);
     value ? (_reg |= _BV(pin)) : (_reg) &= ~(_BV(pin));
+}
+
+uint8_t ControlledRegBit::Read()
+{
+    currentValue = (_reg >> pin) & 1;
+    return currentValue; 
 }
 
 #endif
